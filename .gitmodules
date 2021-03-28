@@ -1,6 +1,0 @@
-[submodule "externals/MIDIModificationFramework"]
-	path = externals/MIDIModificationFramework
-	url = https://github.com/arduano/MIDIModificationFramework.git
-[submodule "externals/ImGui.NET"]
-	path = externals/ImGui.NET
-	url = https://github.com/mellinoe/ImGui.NET.git
