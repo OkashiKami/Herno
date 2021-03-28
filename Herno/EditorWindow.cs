@@ -62,14 +62,14 @@ namespace Herno
             while (view.Exists)
             {
                 if (!view.Exists) { break; }
-                imGui.Update((float)frameTimer.Elapsed.TotalSeconds, view.Width, view.Height);
                 frameTimer.Reset();
                 frameTimer.Start();
+                imGui.Update((float)frameTimer.Elapsed.TotalSeconds, view.Width, view.Height);
 
+                ImGui.DockSpaceOverViewport();
                 cl.Begin();
 
                 // Compute UI elements, render canvases
-                ImGui.DockSpaceOverViewport();
                 uihost.Render(cl);
                 //ImGui.ShowDemoWindow();
                 hotkeys.Update(true);
@@ -77,7 +77,7 @@ namespace Herno
                 if (hotkeys.CurrentHotkey == GlobalHotkey.Redo) projectConnect.Redo();
                 Console.WriteLine(hotkeys.CurrentHotkey);
 
-                ImGui.Text(ImGui.GetIO().Framerate.ToString());
+                //ImGui.Text(ImGui.GetIO().Framerate.ToString());
 
                 imGui.UpdateViewIO(view);
 
@@ -94,23 +94,77 @@ namespace Herno
         private void InitializeUi()
         {
             //Create ImGui Windows
-            var menu = new UIMenu("Hello World!", new IUIComponent[] 
+            var mainmenu = new UIMainMenuBar(new IUIComponent[] 
             {
-                new UIMenuItem("Test 1"),
-                new UIMenuItem("Test 2", "CTRL+Z"),
-                new UIMenuItem("Window", action: () => uihost.Children.Add(new UIWindow("Dynamic ImGui!", new IUIComponent[] { new UIText("Test Text"), new UICheckbox("Test Checkbox", false) })))
+                new UIMenu("File", new IUIComponent[]
+                {
+                    new UIMenuItem("Open Scene", "CTRL+O"),
+                    new UIMenuItem("Open Project", "CTRL+SHIFT+O"),
+                    new UIMenuItem("New Scene", "CTRL+N"),
+                    new UIMenuItem("New Project", "CTRL+SHIFT+N"),
 
+                    new UIMenuItem("Exit", "ALT+F4", () => view.Close())
+
+                }),
+                new UIMenu("Edit", new IUIComponent[]
+                {
+                    new UIMenuItem("Open Scene", "CTRL+O"),
+                    new UIMenuItem("Open Project", "CTRL+SHIFT+O"),
+                    new UIMenuItem("New Scene", "CTRL+N"),
+                    new UIMenuItem("New Project", "CTRL+SHIFT+N"),
+
+                    new UIMenuItem("Exit", "ALT+F4", () => view.Close())
+
+                }),
+
+                new UIMenu("Windows", new IUIComponent[]
+                {
+                    new UIMenuItem("Scene", action: () => uihost.Children.Add(new UIWindow("Scene", new IUIComponent[] {  })))
+
+                })
             });
-            var mainmenu = new UIMainMenuBar(new IUIComponent[] { menu });
 
-            var uiwindow = new UIWindow("Abstracted ImGui!", new IUIComponent[] { new UIText("Test Text"), new UICheckbox("Test Checkbox", false) });
+            var sceneWindow = new UIWindow("Scene", new IUIComponent[] 
+            { 
+            
+            });
+            var gameWindow = new UIWindow("Game", new IUIComponent[] 
+            {
+                new UIMenuBar(new IUIComponent[] { new UIMenu("Status", new IUIComponent[] { new UIMenuItem($"FPS: {ImGui.GetIO().Framerate}" )}), }),
+            });
+            var hierarchyWindow = new UIWindow("Hierarchy", new IUIComponent[]
+            { 
+            
+            });
+            var inspectorWindow = new UIWindow("Inspector", new IUIComponent[] 
+            {
+            
+            });
+            var projectWindow = new UIWindow("Project", new IUIComponent[] 
+            { 
+            
+            });
+            var consoleWindow = new UIWindow("Console", new IUIComponent[]
+            { 
+            
+            });
 
             var pattern = new MIDIPattern();
             projectConnect = new ProjectConnect();
             var pianoRollWindow = UIUtils.CreatePianoRollWindow(projectConnect, pattern, gd, imGui);
 
             // Initialize imgui UI
-            uihost = disposer.Add(new UIHost(new IUIComponent[] { mainmenu, uiwindow, pianoRollWindow }));
+            uihost = disposer.Add(new UIHost(new IUIComponent[] 
+            {
+                mainmenu, 
+                sceneWindow, 
+                gameWindow, 
+                hierarchyWindow, 
+                inspectorWindow,
+                projectWindow,
+                consoleWindow,
+                //pianoRollWindow,
+            }));
 
 
             frameTimer = new Stopwatch();

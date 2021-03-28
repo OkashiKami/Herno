@@ -21,7 +21,7 @@ namespace Herno.UI
       Flags = flags;
     }
 
-    public UIWindow(string name, IEnumerable<IUIComponent> children) : this(name, true, ImGuiWindowFlags.None, children) { }
+    public UIWindow(string name, IEnumerable<IUIComponent> children) : this(name, true, children.ToList().Find(x => x.GetType().Equals(typeof(UIMenuBar))) != null ? ImGuiWindowFlags.MenuBar :  ImGuiWindowFlags.None, children) { }
     public UIWindow(string name) : this(name, Enumerable.Empty<IUIComponent>()) { }
 
     public override void Render(CommandList cl)
