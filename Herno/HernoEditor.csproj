@@ -34,9 +34,6 @@
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
     <ItemGroup>
-        <Compile Remove="externals\**" />
-        <EmbeddedResource Remove="externals\**" />
-        <None Remove="externals\**" />
         <None Include="Resources\Herno.png">
           <Pack>True</Pack>
           <PackagePath></PackagePath>
@@ -62,7 +59,7 @@
         <EmbeddedResource Include="Shaders/Metal/imgui-frag.metallib" LogicalName="imgui-frag.metallib" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\externals\ImGui.NET\src\ImGui.NET\ImGui.NET.csproj" />
-        <ProjectReference Include="..\externals\MIDIModificationFramework\MIDIModificationFramework.csproj" />
+        <ProjectReference Include="..\Extentions\ImGui.NET\src\ImGui.NET\ImGui.NET.csproj" />
+        <ProjectReference Include="..\Extentions\MIDIModificationFramework\MIDIModificationFramework.csproj" />
     </ItemGroup>
 </Project>

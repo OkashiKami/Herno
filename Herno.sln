@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.31025.194
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HernoEditor", "Herno\HernoEditor.csproj", "{A0F047B6-E2FE-4150-9593-81371DE9E8BF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImGui.NET", "externals\ImGui.NET\src\ImGui.NET\ImGui.NET.csproj", "{1A268031-245D-41CA-B4F4-A340C5C2CA93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImGui.NET", "Extentions\ImGui.NET\src\ImGui.NET\ImGui.NET.csproj", "{1A268031-245D-41CA-B4F4-A340C5C2CA93}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MIDIModificationFramework", "externals\MIDIModificationFramework\MIDIModificationFramework.csproj", "{13A9E709-293A-413E-BE62-36C985A08EE5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MIDIModificationFramework", "Extentions\MIDIModificationFramework\MIDIModificationFramework.csproj", "{13A9E709-293A-413E-BE62-36C985A08EE5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{ED93F9D5-EA53-4FB5-9E1A-20FCD6FDE1F6}"
 EndProject
