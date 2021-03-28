@@ -5,16 +5,16 @@ cbuffer ProjectionMatrixBuffer : register(b0)
 
 struct VS_INPUT
 {
-    float2 pos : POSITION;
-    float2 uv  : TEXCOORD0;
     float4 col : COLOR0;
+    float2 uv  : TEXCOORD0;
+    float2 pos : POSITION;
 };
 
 struct PS_INPUT
 {
-    float4 pos : SV_POSITION;
-    float4 col : COLOR0;
     float2 uv  : TEXCOORD0;
+    float4 col : COLOR0;
+    float4 pos : SV_POSITION;
 };
 
 PS_INPUT VS(VS_INPUT input)
