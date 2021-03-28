@@ -88,5 +88,10 @@ namespace Herno.Renderer
         {
             dispose.Dispose();
         }
+
+        internal void Close()
+        {
+            Window.Close();
+        }
     }
 }

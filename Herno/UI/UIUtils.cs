@@ -13,18 +13,18 @@ using Veldrid;
 
 namespace Herno.UI
 {
-  public static class UIUtils
-  {
-    public static UIWindow CreatePianoRollWindow(ProjectConnect projectConnect,  MIDIPattern pattern, GraphicsDevice gd, ImGuiView imGui)
+    public static class UIUtils
     {
-      var menu = new UIMenu("Retard Menu", new IUIComponent[] { new UIMenuItem("Snap Size") });
-      var menuBar = new UIMenuBar(new IUIComponent[] { menu });
-      pattern.GenNotes();
-      var pianoPattern = new MIDIPatternConnect(projectConnect, pattern);
-      var canvas = new MIDIPatternIO(gd, imGui, ImGui.GetContentRegionAvail, pianoPattern);
-      var window = new UIWindow("PianoRoll", new UIValueProperty<bool>(true), ImGuiWindowFlags.MenuBar, new IUIComponent[] { menuBar, canvas });
+        public static UIWindow CreatePianoRollWindow(ProjectConnect projectConnect, MIDIPattern pattern, GraphicsDevice gd, ImGuiView imGui)
+        {
+            var menu = new UIMenu("Retard Menu", new IUIComponent[] { new UIMenuItem("Snap Size") });
+            var menuBar = new UIMenuBar(new IUIComponent[] { menu });
+            pattern.GenNotes();
+            var pianoPattern = new MIDIPatternConnect(projectConnect, pattern);
+            var canvas = new MIDIPatternIO(gd, imGui, ImGui.GetContentRegionAvail, pianoPattern);
+            var window = new UIWindow("PianoRoll", new UIValueProperty<bool>(true), ImGuiWindowFlags.MenuBar, new IUIComponent[] { menuBar, canvas });
 
-      return window;
+            return window;
+        }
     }
-  }
 }
