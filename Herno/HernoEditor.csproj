@@ -1,38 +1,68 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
-    <ApplicationIcon>Resources\Herno.ico</ApplicationIcon>
-    <Authors>Thalitech#9338</Authors>
-    <Product>Herno Editor</Product>
-    <PackageIcon>Herno.png</PackageIcon>
-    <RepositoryUrl>https://github.com/Thalitech/herno</RepositoryUrl>
-    <RepositoryType>Git</RepositoryType>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<Prefer32Bit>true</Prefer32Bit>
-	</PropertyGroup>
-
-	<ItemGroup>
-		<PackageReference Include="Veldrid" Version="4.5.0" />
-		<PackageReference Include="Veldrid.StartupUtilities" Version="4.5.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<EmbeddedResource Include="Shaders/GLSL/imgui-vertex.glsl" LogicalName="imgui-vertex.glsl" />
-		<EmbeddedResource Include="Shaders/GLSL/imgui-frag.glsl" LogicalName="imgui-frag.glsl" />
-		<EmbeddedResource Include="Shaders/HLSL/imgui-vertex.hlsl.bytes" LogicalName="imgui-vertex.hlsl.bytes" />
-		<EmbeddedResource Include="Shaders/HLSL/imgui-frag.hlsl.bytes" LogicalName="imgui-frag.hlsl.bytes" />
-		<EmbeddedResource Include="Shaders/SPIR-V/imgui-vertex.spv" LogicalName="imgui-vertex.spv" />
-		<EmbeddedResource Include="Shaders/SPIR-V/imgui-frag.spv" LogicalName="imgui-frag.spv" />
-		<EmbeddedResource Include="Shaders/Metal/imgui-vertex.metallib" LogicalName="imgui-vertex.metallib" />
-		<EmbeddedResource Include="Shaders/Metal/imgui-frag.metallib" LogicalName="imgui-frag.metallib" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\ImGui.NET\src\ImGui.NET\ImGui.NET.csproj" />
-	</ItemGroup>
-
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net5.0</TargetFramework>
+        <Platforms>AnyCPU;x64</Platforms>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Herno</RootNamespace>
+        <AssemblyName>Herno</AssemblyName>
+        <ApplicationIcon>Resources\Herno.ico</ApplicationIcon>
+        <Copyright>All right received</Copyright>
+        <PackageIcon>Herno.png</PackageIcon>
+        <PackageProjectUrl>https://github.com/Thalitech/Herno</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/Thalitech/Herno</RepositoryUrl>
+        <RepositoryType>Git</RepositoryType>
+        <PackageTags>3D Game Engine</PackageTags>
+        <Company>Thalitech</Company>
+        <Authors>Thalitech</Authors>
+        <AssemblyVersion>1.0.6.1</AssemblyVersion>
+        <FileVersion>1.0.6.1</FileVersion>
+        <Version>1.6.5</Version>
+        <NeutralLanguage>en</NeutralLanguage>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+    <ItemGroup>
+        <Compile Remove="externals\**" />
+        <EmbeddedResource Remove="externals\**" />
+        <None Remove="externals\**" />
+        <None Include="Resources\Herno.png">
+          <Pack>True</Pack>
+          <PackagePath></PackagePath>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+      <None Remove=".gitignore" />
+      <None Remove=".gitmodules" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Veldrid" Version="4.8.0" />
+        <PackageReference Include="Veldrid.SPIRV" Version="1.0.13" />
+        <PackageReference Include="Veldrid.StartupUtilities" Version="4.8.0" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Shaders/GLSL/imgui-vertex.glsl" LogicalName="imgui-vertex.glsl" />
+        <EmbeddedResource Include="Shaders/GLSL/imgui-frag.glsl" LogicalName="imgui-frag.glsl" />
+        <EmbeddedResource Include="Shaders/HLSL/imgui-vertex.hlsl.bytes" LogicalName="imgui-vertex.hlsl.bytes" />
+        <EmbeddedResource Include="Shaders/HLSL/imgui-frag.hlsl.bytes" LogicalName="imgui-frag.hlsl.bytes" />
+        <EmbeddedResource Include="Shaders/SPIR-V/imgui-vertex.spv" LogicalName="imgui-vertex.spv" />
+        <EmbeddedResource Include="Shaders/SPIR-V/imgui-frag.spv" LogicalName="imgui-frag.spv" />
+        <EmbeddedResource Include="Shaders/Metal/imgui-vertex.metallib" LogicalName="imgui-vertex.metallib" />
+        <EmbeddedResource Include="Shaders/Metal/imgui-frag.metallib" LogicalName="imgui-frag.metallib" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\externals\ImGui.NET\src\ImGui.NET\ImGui.NET.csproj" />
+        <ProjectReference Include="..\externals\MIDIModificationFramework\MIDIModificationFramework.csproj" />
+    </ItemGroup>
 </Project>

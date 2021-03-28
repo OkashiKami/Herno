@@ -3,9 +3,8 @@ using System.Globalization;
 using ImGuiNET;
 using System.Numerics;
 
-namespace HernoEditor
+namespace ImGuiNET
 {
-    using ImGuiNET;
     // C# port of ocornut's imgui_memory_editor.h - https://gist.github.com/ocornut/0673e37e54aff644298b
 
     // Mini memory editor for ImGui (to embed in your game/tools)
@@ -144,7 +143,7 @@ namespace HernoEditor
                         }
                         ImGui.PushItemWidth(ImGui.CalcTextSize("FF").X);
 
-                        var flags = ImGuiInputTextFlags.CharsHexadecimal | ImGuiInputTextFlags.EnterReturnsTrue | ImGuiInputTextFlags.AutoSelectAll | ImGuiInputTextFlags.NoHorizontalScroll | ImGuiInputTextFlags.AlwaysOverwrite | ImGuiInputTextFlags.CallbackAlways;
+                        var flags = ImGuiInputTextFlags.CharsHexadecimal | ImGuiInputTextFlags.EnterReturnsTrue | ImGuiInputTextFlags.AutoSelectAll | ImGuiInputTextFlags.NoHorizontalScroll | ImGuiInputTextFlags.AlwaysInsertMode | ImGuiInputTextFlags.CallbackAlways;
 
                         if (ImGui.InputText("##data", DataInput, 32, flags, callback, (IntPtr)(&cursor_pos)))
                             data_write = data_next = true;

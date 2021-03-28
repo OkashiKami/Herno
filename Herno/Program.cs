@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Reflection;
 
-namespace HernoEditor
+namespace Herno
 {
     class Program
     {
         [MTAThread]
         static void Main(string[] args)
         {
-            using (var editor = new EditorWindow()) 
+            using (var editor = new EditorWindow())
                 editor.Run();
         }
     }

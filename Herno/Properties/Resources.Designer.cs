@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace HernoEditor.Properties {
+namespace Herno.Properties {
     using System;
     
     
