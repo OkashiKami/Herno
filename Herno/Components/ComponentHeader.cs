@@ -53,7 +53,7 @@ namespace Herno.Components
 
         protected virtual void ProcessInputs()
         {
-
+            
         }
 
         public void Dispose() { }

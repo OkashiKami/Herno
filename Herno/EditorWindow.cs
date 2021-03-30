@@ -142,42 +142,99 @@ namespace Herno
                     new UIMenuItem("Scene", action: () =>
                     {
                         if(uihost.Children.Find(x => x.Name == "Scene") == null)
-                            uihost.Children.Add(UIUtils.CreateWindow("Scene", gd, imguiView));
+                            uihost.Children.Add(UIUtils.CreateWindow(new WindowConfig()
+                            {
+                                name = "Scene",
+                                device = gd,
+                                view = imguiView,
+                                color = new RgbaFloat(1f, 1f, 1f, 1f),
+                            }));
                         else
                            ((UIWindow)uihost.Children.Find(x => x.Name == "Scene")).Open = true;
                     }),
                     new UIMenuItem("Game", action: () =>
                     {
                         if(uihost.Children.Find(x => x.Name == "Game") == null)
-                            uihost.Children.Add(UIUtils.CreateWindow("Game", gd, imguiView));
+                            uihost.Children.Add(UIUtils.CreateWindow(new WindowConfig()
+                            {
+                                name = "Game",
+                                device = gd,
+                                view = imguiView,
+                                components = new IUIComponent[]
+                                {
+                                    new UIMenuBar(new IUIComponent[]
+                                    {
+                                        new UIMenu("Status", new IUIComponent[]
+                                        {
+                                            new UIMenuItem($"FPS: {ImGui.GetIO().Framerate}" ),
+                                        }),
+                                    }),
+                                }
+                            }));
                          else
                            ((UIWindow)uihost.Children.Find(x => x.Name == "Game")).Open = true;
                     }),
                     new UIMenuItem("Hierarchy", action: () =>
                     {
                         if(uihost.Children.Find(x => x.Name == "Hierarchy") == null)
-                            uihost.Children.Add(UIUtils.CreateWindow("Hierarchy", gd, imguiView));
+                            uihost.Children.Add(UIUtils.CreateWindow(new WindowConfig()
+                            {
+                                name = "Hierarchy",
+                                device = gd,
+                                view = imguiView,
+                                components = new IUIComponent[]
+                                {
+
+                                }
+                            }));
                         else
                            ((UIWindow)uihost.Children.Find(x => x.Name == "Hierarchy")).Open = true;
                     }),
                     new UIMenuItem("Inspector", action: () =>
                     {
                         if(uihost.Children.Find(x => x.Name == "Inspector") == null)
-                            uihost.Children.Add(UIUtils.CreateWindow("Inspector",  gd, imguiView));
+                            uihost.Children.Add(UIUtils.CreateWindow(new WindowConfig()
+                            {
+                                name = "Inspector",
+                                device = gd,
+                                view = imguiView,
+                                components = new IUIComponent[]
+                                {
+                                    new ComponentHeader(),
+                                }
+                            }));
                         else
                            ((UIWindow)uihost.Children.Find(x => x.Name == "Inspector")).Open = true;
                     }),
                     new UIMenuItem("Project", action: () =>
                     {
                         if(uihost.Children.Find(x => x.Name == "Project") == null)
-                            uihost.Children.Add(UIUtils.CreateWindow("Project", gd, imguiView));
+                            uihost.Children.Add(UIUtils.CreateWindow(new WindowConfig()
+                            {
+                                name = "Project",
+                                device = gd,
+                                view = imguiView,
+                                components = new IUIComponent[]
+                                {
+
+                                }
+                            }));
                         else
                            ((UIWindow)uihost.Children.Find(x => x.Name == "Project")).Open = true;
                     }),
                     new UIMenuItem("Console", action: () =>
                     {
                         if(uihost.Children.Find(x => x.Name == "Console") == null)
-                            uihost.Children.Add(UIUtils.CreateWindow("Console", gd, imguiView));
+                            uihost.Children.Add(UIUtils.CreateWindow(new WindowConfig()
+                            {
+                                name = "Console",
+                                device = gd,
+                                view = imguiView,
+                                components = new IUIComponent[]
+                                {
+
+                                }
+                            }));
                         else
                            ((UIWindow)uihost.Children.Find(x => x.Name == "Console")).Open = true;
                     }),
@@ -186,32 +243,68 @@ namespace Herno
 
 
            
-            var sceneWindow = UIUtils.CreateWindow("Scene", gd, imguiView);
-            var gameWindow = UIUtils.CreateWindow("Game", gd, imguiView, new IUIComponent[] 
+            var sceneWindow = UIUtils.CreateWindow(new WindowConfig()
             {
-                new UIMenuBar(new IUIComponent[]
+                name = "Scene",
+                device = gd,
+                view = imguiView,
+                color = new RgbaFloat(.26f, .24f, .10f, 1f),
+            });            
+            var gameWindow = UIUtils.CreateWindow(new WindowConfig()
+            {
+                name = "Game",
+                device = gd,
+                view = imguiView,
+                components = new IUIComponent[]
                 {
-                    new UIMenu("Status", new IUIComponent[] 
+                    new UIMenuBar(new IUIComponent[]
                     {
-                        new UIMenuItem($"FPS: {ImGui.GetIO().Framerate}" ),
+                        new UIMenu("Status", new IUIComponent[]
+                        {
+                            new UIMenuItem($"FPS: {ImGui.GetIO().Framerate}" ),
+                        }),
                     }),
-                }),
+                }
             });
-            var hierarchyWindow = UIUtils.CreateWindow("Hierarchy", gd, imguiView, new IUIComponent[]
-            { 
-                
-            });
-            var inspectorWindow = UIUtils.CreateWindow("Inspector", gd, imguiView, new IUIComponent[]
+            var hierarchyWindow = UIUtils.CreateWindow(new WindowConfig()
             {
-                new ComponentHeader(),
+                name = "Hierarchy",
+                device = gd,
+                view = imguiView,
+                components = new IUIComponent[]
+                {
+
+                }
             });
-            var projectWindow = UIUtils.CreateWindow("Project", gd, imguiView, new IUIComponent[] 
-            { 
-                
+            var inspectorWindow = UIUtils.CreateWindow(new WindowConfig()
+            {
+                name = "Inspector",
+                device = gd,
+                view = imguiView,
+                components = new IUIComponent[]
+                {
+                    new ComponentHeader(),
+                }
             });
-            var consoleWindow = UIUtils.CreateWindow("Console", gd, imguiView, new IUIComponent[]
-            { 
-                
+            var projectWindow = UIUtils.CreateWindow(new WindowConfig()
+            {
+                name = "Project",
+                device = gd,
+                view = imguiView,
+                components = new IUIComponent[]
+                {
+
+                }
+            });
+            var consoleWindow = UIUtils.CreateWindow(new WindowConfig()
+            {
+                name = "Console",
+                device = gd,
+                view = imguiView,
+                components = new IUIComponent[]
+                {
+
+                }
             });
 
             var pattern = new MIDIPattern();
@@ -222,9 +315,9 @@ namespace Herno
             uihost = disposer.Add(new UIHost(new IUIComponent[] 
             {
                 mainmenu, 
-                //sceneWindow, 
+                sceneWindow, 
                 //gameWindow, 
-                //hierarchyWindow, 
+                hierarchyWindow, 
                 inspectorWindow,
                 //projectWindow,
                 //consoleWindow,

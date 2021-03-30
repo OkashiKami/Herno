@@ -11,6 +11,7 @@ namespace Herno.UI
     {
         public string Name { get; set; }
         public List<IUIComponent> Children { get; } = new List<IUIComponent>();
+        public WindowConfig config;
 
         public UIContainer(IEnumerable<IUIComponent> children)
         {

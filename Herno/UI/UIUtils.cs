@@ -23,18 +23,24 @@ namespace Herno.UI
             pattern.GenNotes();
             var pianoPattern = new MIDIPatternConnect(projectConnect, pattern);
             var canvas = new MIDIPatternIO(gd, view, ImGui.GetContentRegionAvail, pianoPattern);
-            var window = new UIWindow("PianoRoll", new UIValueProperty<bool>(true), ImGuiWindowFlags.MenuBar, new IUIComponent[] { menuBar, canvas });
+            
+            var window = new UIWindow( new WindowConfig() 
+            {
+                name = "PianoRoll",
+                device = gd,
+                view = view,
+            }, new UIValueProperty<bool>(true), ImGuiWindowFlags.MenuBar, new IUIComponent[] { menuBar, canvas });
 
             return window;
         }
 
-        internal static UIWindow CreateWindow(string name, GraphicsDevice gd, ImGuiView view, params IUIComponent[] components)
+        internal static UIWindow CreateWindow(WindowConfig config, params IUIComponent[] components)
         {
-            var canvas = new Viewport(gd, view, ImGui.GetContentRegionAvail);
+            var canvas = new Viewport(config, ImGui.GetContentRegionAvail);
             var com = new List<IUIComponent>();
             com.Add(canvas);
             com.AddRange(components);
-            var window = new UIWindow(name, new UIValueProperty<bool>(true), ImGuiWindowFlags.None, com.ToArray());
+            var window = new UIWindow(config, new UIValueProperty<bool>(true), ImGuiWindowFlags.None, com.ToArray());
             return window;
         }
     }

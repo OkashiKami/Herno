@@ -32,6 +32,8 @@ namespace Herno.Components
             public const uint SizeInBytes = 24;
         }
 
+        private WindowConfig config;
+
         BufferList<VertexPositionColor>[] Buffers { get; }
         DeviceBuffer ProjMatrix { get; set; }
         private DeviceBuffer _vertexBuffer;
@@ -77,11 +79,12 @@ namespace Herno.Components
 
         DisposeGroup dispose = new DisposeGroup();
 
-        public Viewport(GraphicsDevice gd, ImGuiView view, Func<Vector2> computeSize) : base(gd, view, computeSize)
+        public Viewport(WindowConfig config, Func<Vector2> computeSize) : base(config.device, config.view, computeSize)
         {
+            this.config = config;
             Buffers = new BufferList<VertexPositionColor>[257]; // first buffer for general purpose, others for keys
             for (int i = 0; i < 257; i++)
-                Buffers[i] = dispose.Add(new BufferList<VertexPositionColor>(gd, 6 * 2048 * 16, new[] { 0, 3, 2, 0, 2, 1 }));
+                Buffers[i] = dispose.Add(new BufferList<VertexPositionColor>(config.device, 6 * 2048 * 16, new[] { 0, 3, 2, 0, 2, 1 }));
             //CurrentInteraction = new MIDIPatternInteractionIdle(null);
 
             ProjMatrix = Factory.CreateBuffer(new BufferDescription(64, BufferUsage.UniformBuffer | BufferUsage.Dynamic));
@@ -150,7 +153,7 @@ namespace Herno.Components
         protected override void RenderToCanvas(CommandList cl)
         {
             cl.SetFramebuffer(Canvas.FrameBuffer);
-            cl.ClearColorTarget(0, new RgbaFloat(.10f, .10f, .10f, 1f));
+            cl.ClearColorTarget(0, config.color);
             Matrix4x4 mvp = Matrix4x4.Identity * Matrix4x4.CreateScale(2, 2, 1) * Matrix4x4.CreateScale(1.0f / this.Canvas.Width, 1.0f / this.Canvas.Height, 1) * Matrix4x4.CreateTranslation(-1, -1, 0) * Matrix4x4.CreateScale(1, -1, 1);
             GraphicsDevice.UpdateBuffer(ProjMatrix, 0, ref mvp);
            

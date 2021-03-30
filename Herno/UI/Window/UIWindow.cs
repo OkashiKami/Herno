@@ -13,15 +13,18 @@ namespace Herno.UI
         public UIProperty<bool> Open { get; set; }
         public ImGuiWindowFlags Flags { get; set; }
 
-        public UIWindow(string name, UIProperty<bool> open, ImGuiWindowFlags flags, IEnumerable<IUIComponent> children) : base(children)
+      
+
+        public UIWindow(WindowConfig config, UIProperty<bool> open, ImGuiWindowFlags flags, IEnumerable<IUIComponent> children) : base(children)
         {
-            Name = string.IsNullOrEmpty(name) ?  "UI Window" : name;
+            Name = string.IsNullOrEmpty(config.name) ?  "UI Window" : config.name;
             Open = open;
             Flags = flags;
+            this.config = config;
         }
 
-        public UIWindow(string name, IEnumerable<IUIComponent> children) : this(name, true, children.ToList().Find(x => x.GetType().Equals(typeof(UIMenuBar))) != null ? ImGuiWindowFlags.MenuBar : ImGuiWindowFlags.None, children) { }
-        public UIWindow(string name) : this(name, Enumerable.Empty<IUIComponent>()) { }
+        public UIWindow(WindowConfig config, IEnumerable<IUIComponent> children) : this(config, true, children.ToList().Find(x => x.GetType().Equals(typeof(UIMenuBar))) != null ? ImGuiWindowFlags.MenuBar : ImGuiWindowFlags.None, children) { }
+        public UIWindow(WindowConfig config) : this(config, Enumerable.Empty<IUIComponent>()) { }
 
         public override void Render(CommandList cl)
         {
