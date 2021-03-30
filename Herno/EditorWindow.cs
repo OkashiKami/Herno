@@ -24,7 +24,7 @@ namespace Herno
         private RenderView view;
         private GraphicsDevice gd;
         private CommandList cl;
-        private ImGuiView imGui;
+        private ImGuiView imguiView;
         private UIHost uihost;
         private static Stopwatch frameTimer;
         private HotkeyHandler<GlobalHotkey> hotkeys;
@@ -48,7 +48,7 @@ namespace Herno
             }));
             gd = view.GraphicsDevice;
             cl = gd.ResourceFactory.CreateCommandList();
-            imGui = new ImGuiView(gd, view.Window, gd.MainSwapchain.Framebuffer.OutputDescription, view.Width, view.Height);
+            imguiView = new ImGuiView(gd, view.Window, gd.MainSwapchain.Framebuffer.OutputDescription, view.Width, view.Height);
             ImGui.GetIO().ConfigWindowsMoveFromTitleBarOnly = true;
         }
 
@@ -64,14 +64,12 @@ namespace Herno
                 if (!view.Exists) { break; }
                 frameTimer.Reset();
                 frameTimer.Start();
-                imGui.Update((float)frameTimer.Elapsed.TotalSeconds, view.Width, view.Height);
-
+                imguiView.Update((float)frameTimer.Elapsed.TotalSeconds, view.Width, view.Height);
                 ImGui.DockSpaceOverViewport();
                 cl.Begin();
 
                 // Compute UI elements, render canvases
                 uihost.Render(cl);
-                //ImGui.ShowDemoWindow();
                 hotkeys.Update(true);
                 if (hotkeys.CurrentHotkey == GlobalHotkey.Undo) projectConnect.Undo();
                 if (hotkeys.CurrentHotkey == GlobalHotkey.Redo) projectConnect.Redo();
@@ -79,15 +77,15 @@ namespace Herno
 
                 //ImGui.Text(ImGui.GetIO().Framerate.ToString());
 
-                imGui.UpdateViewIO(view);
+                imguiView.UpdateViewIO(view);
 
                 cl.SetFramebuffer(gd.MainSwapchain.Framebuffer);
                 cl.ClearColorTarget(0, new RgbaFloat(clearColor.X, clearColor.Y, clearColor.Z, 1f));
-                imGui.Render(gd, cl);
+                imguiView.Render(gd, cl);
                 cl.End();
                 gd.SubmitCommands(cl);
                 gd.SwapBuffers(gd.MainSwapchain);
-                imGui.SwapExtraWindows(gd);
+                imguiView.SwapExtraWindows(gd);
             }
         }
 
@@ -103,66 +101,133 @@ namespace Herno
                     new UIMenuItem("New Scene", "CTRL+N"),
                     new UIMenuItem("New Project", "CTRL+SHIFT+N"),
 
-                    new UIMenuItem("Exit", "ALT+F4", () => view.Close())
+                    new UIMenuItem("Exit", "ALT+F4", () => view.Close()),
 
                 }),
                 new UIMenu("Edit", new IUIComponent[]
                 {
-                    new UIMenuItem("Open Scene", "CTRL+O"),
-                    new UIMenuItem("Open Project", "CTRL+SHIFT+O"),
-                    new UIMenuItem("New Scene", "CTRL+N"),
-                    new UIMenuItem("New Project", "CTRL+SHIFT+N"),
-
-                    new UIMenuItem("Exit", "ALT+F4", () => view.Close())
-
+                    new UIMenuItem("Undo", "CTRL+Z"),
+                    new UIMenuItem("Redo", "CTRL+SHIFT+Z"),
+                    new UIMenuItem("Cut", "CTRL+X"),
+                    new UIMenuItem("Copy", "CTRL+C"),
+                    new UIMenuItem("Paste", "CTRL+V"),
                 }),
+                new UIMenu("View", new IUIComponent[]
+                {
+                    new UIMenuItem("Undo", "CTRL+Z"),
+                    new UIMenuItem("Redo", "CTRL+SHIFT+Z"),
+                    new UIMenuItem("Cut", "CTRL+X"),
+                    new UIMenuItem("Copy", "CTRL+C"),
+                    new UIMenuItem("Paste", "CTRL+V"),
+                }),
+                new UIMenu("GameObject", new IUIComponent[]
+                {
+                    new UIMenu("Create", new IUIComponent[]
+                    {
+                        new UIMenuItem("3D Object", readOnly: true),
+                        new UIMenuItem("Cube"),
+                        new UIMenuItem("Sphere"),
+                        new UIMenuItem("Cylender"),
+                        new UIMenuItem("Plane"),
+                        new UIMenuItem("3D Text"),
+
+                        new UIMenuItem("2D Object", readOnly: true),
+                        new UIMenuItem("Comming Soon", readOnly: true),
+                    }),
+                }),
+
 
                 new UIMenu("Windows", new IUIComponent[]
                 {
-                    new UIMenuItem("Scene", action: () => uihost.Children.Add(new UIWindow("Scene", new IUIComponent[] {  })))
-
+                    new UIMenuItem("Scene", action: () =>
+                    {
+                        if(uihost.Children.Find(x => x.Name == "Scene") == null)
+                            uihost.Children.Add(UIUtils.CreateWindow("Scene", gd, imguiView));
+                        else
+                           ((UIWindow)uihost.Children.Find(x => x.Name == "Scene")).Open = true;
+                    }),
+                    new UIMenuItem("Game", action: () =>
+                    {
+                        if(uihost.Children.Find(x => x.Name == "Game") == null)
+                            uihost.Children.Add(UIUtils.CreateWindow("Game", gd, imguiView));
+                         else
+                           ((UIWindow)uihost.Children.Find(x => x.Name == "Game")).Open = true;
+                    }),
+                    new UIMenuItem("Hierarchy", action: () =>
+                    {
+                        if(uihost.Children.Find(x => x.Name == "Hierarchy") == null)
+                            uihost.Children.Add(UIUtils.CreateWindow("Hierarchy", gd, imguiView));
+                        else
+                           ((UIWindow)uihost.Children.Find(x => x.Name == "Hierarchy")).Open = true;
+                    }),
+                    new UIMenuItem("Inspector", action: () =>
+                    {
+                        if(uihost.Children.Find(x => x.Name == "Inspector") == null)
+                            uihost.Children.Add(UIUtils.CreateWindow("Inspector",  gd, imguiView));
+                        else
+                           ((UIWindow)uihost.Children.Find(x => x.Name == "Inspector")).Open = true;
+                    }),
+                    new UIMenuItem("Project", action: () =>
+                    {
+                        if(uihost.Children.Find(x => x.Name == "Project") == null)
+                            uihost.Children.Add(UIUtils.CreateWindow("Project", gd, imguiView));
+                        else
+                           ((UIWindow)uihost.Children.Find(x => x.Name == "Project")).Open = true;
+                    }),
+                    new UIMenuItem("Console", action: () =>
+                    {
+                        if(uihost.Children.Find(x => x.Name == "Console") == null)
+                            uihost.Children.Add(UIUtils.CreateWindow("Console", gd, imguiView));
+                        else
+                           ((UIWindow)uihost.Children.Find(x => x.Name == "Console")).Open = true;
+                    }),
                 })
             });
 
-            var sceneWindow = new UIWindow("Scene", new IUIComponent[] 
-            { 
-            
-            });
-            var gameWindow = new UIWindow("Game", new IUIComponent[] 
+
+           
+            var sceneWindow = UIUtils.CreateWindow("Scene", gd, imguiView);
+            var gameWindow = UIUtils.CreateWindow("Game", gd, imguiView, new IUIComponent[] 
             {
-                new UIMenuBar(new IUIComponent[] { new UIMenu("Status", new IUIComponent[] { new UIMenuItem($"FPS: {ImGui.GetIO().Framerate}" )}), }),
+                new UIMenuBar(new IUIComponent[]
+                {
+                    new UIMenu("Status", new IUIComponent[] 
+                    {
+                        new UIMenuItem($"FPS: {ImGui.GetIO().Framerate}" ),
+                    }),
+                }),
             });
-            var hierarchyWindow = new UIWindow("Hierarchy", new IUIComponent[]
+            var hierarchyWindow = UIUtils.CreateWindow("Hierarchy", gd, imguiView, new IUIComponent[]
             { 
-            
+                
             });
-            var inspectorWindow = new UIWindow("Inspector", new IUIComponent[] 
+            var inspectorWindow = UIUtils.CreateWindow("Inspector", gd, imguiView, new IUIComponent[]
             {
-            
+                new ComponentHeader(),
             });
-            var projectWindow = new UIWindow("Project", new IUIComponent[] 
+            var projectWindow = UIUtils.CreateWindow("Project", gd, imguiView, new IUIComponent[] 
             { 
-            
+                
             });
-            var consoleWindow = new UIWindow("Console", new IUIComponent[]
+            var consoleWindow = UIUtils.CreateWindow("Console", gd, imguiView, new IUIComponent[]
             { 
-            
+                
             });
 
             var pattern = new MIDIPattern();
             projectConnect = new ProjectConnect();
-            var pianoRollWindow = UIUtils.CreatePianoRollWindow(projectConnect, pattern, gd, imGui);
+            var pianoRollWindow = UIUtils.CreatePianoRollWindow(projectConnect, pattern, gd, imguiView);
 
             // Initialize imgui UI
             uihost = disposer.Add(new UIHost(new IUIComponent[] 
             {
                 mainmenu, 
-                sceneWindow, 
-                gameWindow, 
-                hierarchyWindow, 
+                //sceneWindow, 
+                //gameWindow, 
+                //hierarchyWindow, 
                 inspectorWindow,
-                projectWindow,
-                consoleWindow,
+                //projectWindow,
+                //consoleWindow,
                 //pianoRollWindow,
             }));
 

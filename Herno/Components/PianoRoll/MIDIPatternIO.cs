@@ -18,7 +18,7 @@ using Herno.Components.PianoRoll;
 
 namespace Herno.Components
 {
-  public class MIDIPatternIO : UICanvas
+  public class MIDIPatternIO : UIViewport
   {
     struct VertexPositionColor
     {

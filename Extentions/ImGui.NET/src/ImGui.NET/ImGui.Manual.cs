@@ -25,6 +25,11 @@ namespace ImGuiNET
             return InputText(label, buf, buf_size, flags, null, IntPtr.Zero);
         }
 
+        public static void Checkbox(string v, ref object @static)
+        {
+            throw new NotImplementedException();
+        }
+
         public static bool InputText(
             string label,
             byte[] buf,

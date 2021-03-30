@@ -9,6 +9,7 @@ namespace Herno.UI
 {
     public abstract class UIContainer : IUIContainer
     {
+        public string Name { get; set; }
         public List<IUIComponent> Children { get; } = new List<IUIComponent>();
 
         public UIContainer(IEnumerable<IUIComponent> children)

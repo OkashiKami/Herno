@@ -8,32 +8,31 @@ using Veldrid;
 
 namespace Herno.UI
 {
-  public class UIWindow : UIContainer
-  {
-    public string Name { get; set; }
-    public UIProperty<bool> Open { get; set; }
-    public ImGuiWindowFlags Flags { get; set; }
-
-    public UIWindow(string name, UIProperty<bool> open, ImGuiWindowFlags flags, IEnumerable<IUIComponent> children) : base(children)
+    public class UIWindow : UIContainer
     {
-      Name = name;
-      Open = open;
-      Flags = flags;
+        public UIProperty<bool> Open { get; set; }
+        public ImGuiWindowFlags Flags { get; set; }
+
+        public UIWindow(string name, UIProperty<bool> open, ImGuiWindowFlags flags, IEnumerable<IUIComponent> children) : base(children)
+        {
+            Name = string.IsNullOrEmpty(name) ?  "UI Window" : name;
+            Open = open;
+            Flags = flags;
+        }
+
+        public UIWindow(string name, IEnumerable<IUIComponent> children) : this(name, true, children.ToList().Find(x => x.GetType().Equals(typeof(UIMenuBar))) != null ? ImGuiWindowFlags.MenuBar : ImGuiWindowFlags.None, children) { }
+        public UIWindow(string name) : this(name, Enumerable.Empty<IUIComponent>()) { }
+
+        public override void Render(CommandList cl)
+        {
+            var open = Open.Value;
+
+            if (!open) return;
+
+            ImGui.Begin(Name, ref open, Flags);
+            if (open != Open.Value) Open.Set(open);
+            RenderChildren(cl);
+            ImGui.End();
+        }
     }
-
-    public UIWindow(string name, IEnumerable<IUIComponent> children) : this(name, true, children.ToList().Find(x => x.GetType().Equals(typeof(UIMenuBar))) != null ? ImGuiWindowFlags.MenuBar :  ImGuiWindowFlags.None, children) { }
-    public UIWindow(string name) : this(name, Enumerable.Empty<IUIComponent>()) { }
-
-    public override void Render(CommandList cl)
-    {
-      var open = Open.Value;
-
-      if (!open) return;
-
-      ImGui.Begin(Name, ref open, Flags);
-      if (open != Open.Value) Open.Set(open);
-      RenderChildren(cl);
-      ImGui.End();
-    }
-  }
 }

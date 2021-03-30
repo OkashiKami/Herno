@@ -9,6 +9,7 @@ namespace Herno.UI
 {
     public interface IUIComponent : IDisposable
     {
+        public string Name { get; set; }
         void Render(CommandList cl);
         new void Dispose()
         { }

@@ -9,14 +9,15 @@ using Veldrid;
 
 namespace Herno.Components.Project
 {
-  class ProjectIO : IUIComponent
-  {
-    public void Dispose()
-    { }
-
-    public void Render(CommandList cl)
+    class ProjectIO : IUIComponent
     {
-      
+        public string Name { get; set; } = "Project I/O";
+        public void Dispose()
+        { }
+
+        public void Render(CommandList cl)
+        {
+
+        }
     }
-  }
 }

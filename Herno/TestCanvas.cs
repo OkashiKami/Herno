@@ -12,7 +12,7 @@ using ImGuiNET;
 
 namespace Herno
 {
-  public class TestCanvas : UICanvas
+  public class TestCanvas : UIViewport
   {
     struct VertexPositionColor
     {

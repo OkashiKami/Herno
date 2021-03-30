@@ -62,4 +62,12 @@
         <ProjectReference Include="..\Extentions\ImGui.NET\src\ImGui.NET\ImGui.NET.csproj" />
         <ProjectReference Include="..\Extentions\MIDIModificationFramework\MIDIModificationFramework.csproj" />
     </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Resources\Music\" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Update="Resources\Music\Alan Walker - Faded.mid">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
 </Project>

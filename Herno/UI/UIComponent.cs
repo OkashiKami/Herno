@@ -7,11 +7,12 @@ using Veldrid;
 
 namespace Herno.UI
 {
-  public abstract class UIComponent : IUIComponent
-  {
-    public virtual void Dispose()
-    { }
+    public abstract class UIComponent : IUIComponent
+    {
+        public string Name { get; set; } = "UI Component";
+        public virtual void Dispose()
+        { }
 
-    public abstract void Render(CommandList cl);
-  }
+        public abstract void Render(CommandList cl);
+    }
 }
